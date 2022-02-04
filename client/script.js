@@ -88,9 +88,13 @@ const ohMy = () => {
     // YOUR CODE HERE
     axios.get(`http://localhost:3000/animals`)
         .then((res) => {
+            console.log(res.data)
+
             for (let i = 0; i < res.data.length; i++) {
-                let newP = document.createElement(`p`).textContent(res.data[i].value)
-                document.body.appendChild(newP)
+                let newP = document.createElement(`p`)
+                newP.textContent = res.data[i]
+                let body = document.querySelector(`body`)
+                body.appendChild(newP)
             }
         })
 }
@@ -110,19 +114,21 @@ document.getElementById('animals-button').addEventListener('click', ohMy)
     We'll be updating this function in the next problem.
 */
 
-const repeatMyParam = (param) => {
+const repeatMyParam = () => {
     //YOUR CODE HERE
-    axios.get(`http://localhost:3000/repeat/${param}`)
-        .then(response => {
-            console.log(response.data)
+    axios.get(`http://localhost:3000/repeat/hello-there`)
+        .then(res => {
+            console.log(res.data)
+            const repeatText = document.querySelector(`#repeat-text`)
+            repeatText.textContent = res.data
+            repeatText.style.display = `block`
         })
         .catch((error) => {
             console.log(error)
         })
 
-    let repeatEle = document.getElementById(`repeat-text`).textContent
-    repeatEle.textContent = res.data
-    repeatEle.style.display = `block`
+    let repeatEle = document.getElementById(`repeat-button`)
+    repeatEle.addEventListener(`click`, repeatMyParam)
 }
 
 document.getElementById(`repeat-button`).addEventListener(`click`, repeatMyParam)
@@ -148,10 +154,16 @@ document.getElementById(`repeat-button`).addEventListener(`click`, repeatMyParam
 // CODE HERE
 const aRequest = () => {
     axios.get('http://localhost:3000/query-test?myQuery=this-is-a-query&anotherQuery=cool-beans')
-        .then(({ data }) => console.log(data))
+        .then(res => {
+            console.log(res.data)
+        })
 }
 
 document.getElementById(`query-button`).addEventListener(`click`, aRequest)
+
+// or...
+// const queryBtn = document.querySelector('#query-button')
+// queryBtn.addEventListener('click', aRequest)
 
 
 ////////////////
